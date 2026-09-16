@@ -1,0 +1,893 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ZAMIR — Digital Hacker</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+    :root {
+      --green: #00ff66;
+      --green-dark: #00a83f;
+      --green-soft: #7dffad;
+      --black: #030504;
+      --black-2: #07100a;
+      --gray: #9ca89f;
+      --border: rgba(0, 255, 102, 0.18);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "JetBrains Mono", monospace;
+      background: var(--black);
+      color: white;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,0.015) 0px,
+          rgba(255,255,255,0.015) 1px,
+          transparent 1px,
+          transparent 4px
+        );
+      mix-blend-mode: screen;
+    }
+
+    /* =========================
+       BACKGROUND
+    ========================= */
+
+    .background {
+      position: fixed;
+      inset: 0;
+      z-index: -5;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(0, 255, 102, 0.08), transparent 35%),
+        radial-gradient(circle at 80% 80%, rgba(0, 255, 102, 0.05), transparent 25%),
+        #030504;
+    }
+
+    .grid {
+      position: fixed;
+      inset: 0;
+      z-index: -4;
+      opacity: 0.18;
+      background-image:
+        linear-gradient(rgba(0,255,102,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,102,0.08) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: linear-gradient(to bottom, black, transparent);
+    }
+
+    .glow {
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: rgba(0,255,102,0.06);
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: -3;
+    }
+
+    .glow.one {
+      top: -200px;
+      left: -200px;
+    }
+
+    .glow.two {
+      right: -250px;
+      bottom: -200px;
+    }
+
+    /* =========================
+       NAVBAR
+    ========================= */
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 22px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      background: rgba(3, 5, 4, 0.75);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(0,255,102,0.08);
+    }
+
+    .logo {
+      font-size: 23px;
+      font-weight: 700;
+      letter-spacing: 5px;
+      color: var(--green);
+      text-shadow: 0 0 15px rgba(0,255,102,0.5);
+    }
+
+    .logo::before {
+      content: "> ";
+      color: #fff;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 35px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #b8c1ba;
+      text-decoration: none;
+      font-size: 13px;
+      transition: .3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--green);
+      text-shadow: 0 0 10px rgba(0,255,102,0.7);
+    }
+
+    .nav-status {
+      font-size: 11px;
+      color: var(--green-soft);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--green);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .35; }
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      min-height: 100vh;
+      padding: 150px 7% 80px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .hero-left {
+      max-width: 750px;
+    }
+
+    .terminal-label {
+      color: var(--green);
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+
+    .terminal-label span {
+      color: white;
+    }
+
+    .hero h1 {
+      font-size: clamp(65px, 11vw, 155px);
+      line-height: .88;
+      letter-spacing: -7px;
+      font-weight: 700;
+      color: white;
+      position: relative;
+    }
+
+    .hero h1::after {
+      content: "ZAMIR";
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      color: var(--green);
+      opacity: .18;
+      z-index: -1;
+      animation: glitch 3s infinite;
+    }
+
+    @keyframes glitch {
+      0%, 90%, 100% {
+        transform: translate(0);
+      }
+      92% {
+        transform: translate(-4px, 2px);
+      }
+      94% {
+        transform: translate(4px, -2px);
+      }
+      96% {
+        transform: translate(-2px, 0);
+      }
+    }
+
+    .hero-description {
+      max-width: 650px;
+      margin-top: 35px;
+      line-height: 1.9;
+      color: #9fa8a1;
+      font-size: 14px;
+    }
+
+    .hero-description strong {
+      color: var(--green);
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 15px 24px;
+      text-decoration: none;
+      font-size: 12px;
+      border: 1px solid var(--green);
+      transition: .3s;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: #001b09;
+      font-weight: 700;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 0 25px rgba(0,255,102,.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      color: var(--green);
+      background: rgba(0,255,102,.03);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(0,255,102,.1);
+    }
+
+    /* =========================
+       TERMINAL
+    ========================= */
+
+    .terminal {
+      width: min(460px, 100%);
+      border: 1px solid var(--border);
+      background: rgba(5,10,7,.86);
+      box-shadow:
+        0 0 60px rgba(0,255,102,.07),
+        inset 0 0 40px rgba(0,255,102,.025);
+    }
+
+    .terminal-header {
+      padding: 12px 15px;
+      border-bottom: 1px solid var(--border);
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .terminal-title {
+      font-size: 11px;
+      color: #9ca69e;
+    }
+
+    .terminal-controls {
+      display: flex;
+      gap: 5px;
+    }
+
+    .terminal-controls i {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 1px solid #526058;
+    }
+
+    .terminal-body {
+      padding: 25px;
+      min-height: 360px;
+      font-size: 12px;
+      line-height: 2;
+      color: #aeb9b0;
+    }
+
+    .green {
+      color: var(--green);
+    }
+
+    .command {
+      color: white;
+    }
+
+    .typing::after {
+      content: "_";
+      animation: blink .8s infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .stats {
+      padding: 0 7% 100px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-bottom: 1px solid rgba(0,255,102,.1);
+    }
+
+    .stat {
+      padding: 30px;
+      border-left: 1px solid rgba(0,255,102,.1);
+    }
+
+    .stat:last-child {
+      border-right: 1px solid rgba(0,255,102,.1);
+    }
+
+    .stat-number {
+      color: var(--green);
+      font-size: 30px;
+      font-weight: 700;
+    }
+
+    .stat-label {
+      margin-top: 8px;
+      color: #7e8981;
+      font-size: 11px;
+    }
+
+    /* =========================
+       SECTION
+    ========================= */
+
+    section {
+      padding: 130px 7%;
+    }
+
+    .section-label {
+      font-size: 11px;
+      color: var(--green);
+      margin-bottom: 15px;
+    }
+
+    .section-title {
+      font-size: clamp(32px, 5vw, 60px);
+      margin-bottom: 50px;
+      letter-spacing: -2px;
+    }
+
+    /* =========================
+       CARDS
+    ========================= */
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      min-height: 230px;
+      padding: 28px;
+
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.01);
+
+      transition: .35s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--green);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: .4s;
+    }
+
+    .card:hover {
+      transform: translateY(-7px);
+      background: rgba(0,255,102,.025);
+      border-color: rgba(0,255,102,.4);
+    }
+
+    .card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .card-number {
+      font-size: 12px;
+      color: var(--green);
+      margin-bottom: 45px;
+    }
+
+    .card h3 {
+      font-size: 19px;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: #818b84;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    /* =========================
+       CODE SECTION
+    ========================= */
+
+    .code-box {
+      border: 1px solid var(--border);
+      background: #020403;
+      overflow: hidden;
+    }
+
+    .code-header {
+      padding: 13px 18px;
+      border-bottom: 1px solid rgba(0,255,102,.12);
+      color: #6e7d72;
+      font-size: 11px;
+    }
+
+    pre {
+      padding: 28px;
+      overflow-x: auto;
+      line-height: 1.8;
+      font-size: 12px;
+      color: #aeb8b0;
+    }
+
+    .syntax-green {
+      color: var(--green);
+    }
+
+    .syntax-gray {
+      color: #717b74;
+    }
+
+    .syntax-white {
+      color: white;
+    }
+
+    /* =========================
+       CTA
+    ========================= */
+
+    .cta {
+      text-align: center;
+      border-top: 1px solid rgba(0,255,102,.08);
+      border-bottom: 1px solid rgba(0,255,102,.08);
+    }
+
+    .cta h2 {
+      font-size: clamp(40px, 7vw, 90px);
+      line-height: .95;
+      letter-spacing: -4px;
+    }
+
+    .cta p {
+      max-width: 550px;
+      margin: 25px auto 35px;
+      color: #7d887f;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      padding: 30px 7%;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      color: #59625d;
+      font-size: 10px;
+    }
+
+    footer strong {
+      color: var(--green);
+      font-weight: 500;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 1000px) {
+      .hero {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .terminal {
+        width: 100%;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      nav {
+        padding: 18px 5%;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-status {
+        font-size: 9px;
+      }
+
+      .hero {
+        padding: 130px 5% 70px;
+      }
+
+      .hero h1 {
+        font-size: 21vw;
+        letter-spacing: -4px;
+      }
+
+      .hero-description {
+        font-size: 12px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+        padding: 0 5% 70px;
+      }
+
+      .stat {
+        border-right: 1px solid rgba(0,255,102,.1);
+      }
+
+      section {
+        padding: 90px 5%;
+      }
+
+      .terminal-body {
+        font-size: 10px;
+      }
+
+      footer {
+        padding: 25px 5%;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="background"></div>
+  <div class="grid"></div>
+  <div class="glow one"></div>
+  <div class="glow two"></div>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="logo">ZAMIR</div>
+
+    <ul class="nav-links">
+      <li><a href="#home">01_HOME</a></li>
+      <li><a href="#about">02_ABOUT</a></li>
+      <li><a href="#skills">03_SKILLS</a></li>
+      <li><a href="#contact">04_CONTACT</a></li>
+    </ul>
+
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      SYSTEM ONLINE
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <main id="home">
+
+    <section class="hero">
+
+      <div class="hero-left">
+
+        <div class="terminal-label">
+          root@zamir:~$ <span>./initialize</span>
+        </div>
+
+        <h1>ZAMIR</h1>
+
+        <p class="hero-description">
+          Welcome to my digital space.
+          <strong>Code. Create. Experiment.</strong>
+          A place where technology meets creativity and every idea
+          begins with a single line of code.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#about" class="btn btn-primary">
+            ENTER_SYSTEM →
+          </a>
+
+          <a href="#contact" class="btn btn-secondary">
+            CONTACT_ME
+          </a>
+        </div>
+
+      </div>
+
+      <!-- TERMINAL -->
+      <div class="terminal">
+
+        <div class="terminal-header">
+          <div class="terminal-title">
+            ZAMIR_TERMINAL
+          </div>
+
+          <div class="terminal-controls">
+            <i></i>
+            <i></i>
+            <i></i>
+          </div>
+        </div>
+
+        <div class="terminal-body">
+
+          <div>
+            <span class="green">root@zamir</span>:~$ whoami
+          </div>
+
+          <div class="command">
+            ZAMIR
+          </div>
+
+          <br>
+
+          <div>
+            <span class="green">root@zamir</span>:~$ status
+          </div>
+
+          <div>
+            System: <span class="green">ONLINE</span>
+          </div>
+
+          <div>
+            Security: <span class="green">ACTIVE</span>
+          </div>
+
+          <div>
+            Creativity: <span class="green">100%</span>
+          </div>
+
+          <div>
+            Coffee: <span class="green">∞</span>
+          </div>
+
+          <br>
+
+          <div>
+            <span class="green">root@zamir</span>:~$ ls /projects
+          </div>
+
+          <div>
+            <span class="green">/websites</span>
+          </div>
+
+          <div>
+            <span class="green">/applications</span>
+          </div>
+
+          <div>
+            <span class="green">/design</span>
+          </div>
+
+          <div>
+            <span class="green">/experiments</span>
+          </div>
+
+          <br>
+
+          <div class="typing">
+            <span class="green">root@zamir</span>:~$
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- STATS -->
+    <div class="stats">
+
+      <div class="stat">
+        <div class="stat-number">01</div>
+        <div class="stat-label">IDENTITY</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number">∞</div>
+        <div class="stat-label">IDEAS</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">CREATING</div>
+      </div>
+
+    </div>
+
+    <!-- ABOUT -->
+    <section id="about">
+
+      <div class="section-label">
+        // 01 — ABOUT
+      </div>
+
+      <h2 class="section-title">
+        DIGITAL<br>
+        ARCHITECT
+      </h2>
+
+      <div class="cards">
+
+        <article class="card">
+          <div class="card-number">01</div>
+          <h3>BUILD</h3>
+          <p>
+            Mengubah ide menjadi website dan aplikasi
+            yang dapat digunakan secara nyata.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="card-number">02</div>
+          <h3>DESIGN</h3>
+          <p>
+            Menggabungkan estetika dan fungsi untuk
+            menciptakan pengalaman digital yang menarik.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="card-number">03</div>
+          <h3>EXPLORE</h3>
+          <p>
+            Mencoba teknologi baru, bereksperimen,
+            dan terus mempelajari hal-hal baru.
+          </p>
+        </article>
+
+      </div>
+
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+
+      <div class="section-label">
+        // 02 — SYSTEM
+      </div>
+
+      <h2 class="section-title">
+        CURRENT<br>
+        STACK
+      </h2>
+
+      <div class="code-box">
+
+        <div class="code-header">
+          /zamir/config/skills.json
+        </div>
+
+<pre><span class="syntax-gray">{</span>
+  <span class="syntax-green">"frontend"</span><span class="syntax-gray">:</span> <span class="syntax-white">[</span>
+    <span class="syntax-white">"HTML"</span><span class="syntax-gray">,</span>
+    <span class="syntax-white">"CSS"</span><span class="syntax-gray">,</span>
+    <span class="syntax-white">"JavaScript"</span>
+  <span class="syntax-white">]</span><span class="syntax-gray">,</span>
+
+  <span class="syntax-green">"tools"</span><span class="syntax-gray">:</span> <span class="syntax-white">[</span>
+    <span class="syntax-white">"Git"</span><span class="syntax-gray">,</span>
+    <span class="syntax-white">"GitHub"</span><span class="syntax-gray">,</span>
+    <span class="syntax-white">"AI"</span>
+  <span class="syntax-white">]</span><span class="syntax-gray">,</span>
+
+  <span class="syntax-green">"status"</span><span class="syntax-gray">:</span>
+    <span class="syntax-white">"learning_and_building"</span>
+<span class="syntax-gray">}</span></pre>
+
+      </div>
+
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="cta">
+
+      <div class="section-label">
+        // 03 — CONNECTION
+      </div>
+
+      <h2>
+        LET'S<br>
+        BUILD.
+      </h2>
+
+      <p>
+        Every great digital project starts with an idea.
+        Let's turn that idea into something real.
+      </p>
+
+      <a href="mailto:hello@zamir.dev" class="btn btn-primary">
+        SEND_MESSAGE →
+      </a>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      © 2026 <strong>ZAMIR</strong>
+    </div>
+
+    <div>
+      SYSTEM_STATUS: <strong>ONLINE</strong>
+    </div>
+  </footer>
+
+</body>
+</html>
+```
